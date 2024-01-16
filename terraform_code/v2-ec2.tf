@@ -1,38 +1,36 @@
-provider  "aws" {
-    region = "us-east-1"
+provider "aws" {
+  region = "us-east-1"
 }
 
-resource "aws_instance" "dev-project" {
+resource "aws_instance" "demo-server" {
     ami = "ami-0005e0cfe09cc9050"
-    instance type = "t2.micro"
-    key_name = "dev"
-    security_group = ["dev-project-sg"]
+    instance_type = "t2.micro"
+    key_name = "dpp"
+    security_groups = [ "demo-sg" ]
 }
 
-resource "aws-security_group" "dev-project-sg" {
-    name = "demo-project-sg"
-    description = "SSH Access"
-{
+resource "aws_security_group" "demo-sg" {
+  name        = "demo-sg"
+  description = "SSH Access"
+  
+  ingress {
+    description      = "Shh access"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    }
 
-}
-
-ingress {
-    description   = "SSh access"
-    from_port     = 22
-    to_port       = 22
-    protocol      = "tcp"
-    cidr_blocks   = ["0.0.0.0/0"]
-}
-
-egress {
-    from_port    = 0
-    to_port      = 0
-    protocol     = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
-}
+  }
 
-tags = {
-    name = "SSH-port"
-}
+  tags = {
+    Name = "ssh-prot"
+
+  }
 }
